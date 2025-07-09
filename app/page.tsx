@@ -16,7 +16,6 @@ import {
   Infinity,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
 
 // ─────────────────────────────────────────────────────────
 // ➊  Define ALL static arrays FIRST so they’re initialized
@@ -117,14 +116,14 @@ export default function BirthdayWebsite() {
                 key={i}
                 className="absolute w-2 h-2 bg-gradient-to-r from-pink-400 to-purple-400 rounded-full"
                 initial={{
-                  x: Math.random() * window.innerWidth,
+                  x: typeof window !== 'undefined' ? Math.random() * window.innerWidth : 0,
                   y: -10,
                   rotate: 0,
                 }}
                 animate={{
-                  y: window.innerHeight + 10,
+                  y: typeof window !== 'undefined' ? window.innerHeight + 10 : 1000,
                   rotate: 360,
-                  x: Math.random() * window.innerWidth,
+                  x: typeof window !== 'undefined' ? Math.random() * window.innerWidth : 0,
                 }}
                 exit={{ opacity: 0 }}
                 transition={{
@@ -501,24 +500,16 @@ export default function BirthdayWebsite() {
                   rotate: Math.random() * 10 - 5,
                   zIndex: 10,
                 }}
-                className="relative group cursor-pointer"
+                className="relative overflow-hidden rounded-xl shadow-lg"
               >
-                <Card className="overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 bg-white/80 backdrop-blur-sm">
-                  <CardContent className="p-0">
-                    <div className="aspect-square overflow-hidden">
-                      <Image
-                        src={photo || "/placeholder.svg"}
-                        alt={`Memory ${index + 1}`}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                        width={500}
-                        height={500}
-                      />
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-                      <p className="text-white p-4 font-medium">Beautiful Memory #{index + 1}</p>
-                    </div>
-                  </CardContent>
-                </Card>
+                <Image
+                  src={photo}
+                  alt={`Memory ${index + 1}`}
+                  width={400}
+                  height={400}
+                  className="w-full h-full object-cover"
+                  priority={index < 4}
+                />
               </motion.div>
             ))}
           </div>
@@ -673,3 +664,5 @@ export default function BirthdayWebsite() {
     </div>
   )
 }
+
+
